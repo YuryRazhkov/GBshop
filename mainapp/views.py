@@ -15,7 +15,7 @@ def index(request):
 def products(request):
     context = {
         'links_menu': links_menu,
-        'title': 'Товары'
+        'title': 'Все товары'
     }
 
     return render(request, 'mainapp/products.html', context)
@@ -23,7 +23,7 @@ def products(request):
 def products_home(request):
     context = {
         'links_menu': links_menu,
-        'title': 'Товары'
+        'title': 'Дом'
     }
 
     return render(request, 'mainapp/products.html', context)
@@ -31,7 +31,7 @@ def products_home(request):
 def products_modern(request):
     context = {
         'links_menu': links_menu,
-        'title': 'Товары'
+        'title': 'Модерн'
     }
 
     return render(request, 'mainapp/products.html', context)
@@ -39,7 +39,7 @@ def products_modern(request):
 def products_office(request):
     context = {
         'links_menu': links_menu,
-        'title': 'Товары'
+        'title': 'Офис'
     }
 
     return render(request, 'mainapp/products.html', context)
@@ -47,7 +47,7 @@ def products_office(request):
 def products_classic(request):
     context = {
         'links_menu': links_menu,
-        'title': 'Товары'
+        'title': 'Классика'
     }
 
     return render(request, 'mainapp/products.html', context)
