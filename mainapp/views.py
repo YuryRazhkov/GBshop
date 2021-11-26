@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.conf import settings
+
+from mainapp.models import Product
 
 links_menu = [
     {'href': 'products', 'name': 'Все'},
@@ -10,6 +13,17 @@ links_menu = [
 
 
 def index(request):
+
+    product_list = Product.objects.all()
+    print(product_list.query)
+
+    context = {
+        'titel': 'мой магазин',
+        'products': product_list
+
+
+    }
+
     return render(request, 'mainapp/index.html')
 
 def products(request):
