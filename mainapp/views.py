@@ -1,40 +1,34 @@
 from django.shortcuts import render
 from django.conf import settings
 
-from mainapp.models import Product
-
-links_menu = [
-    {'href': 'products', 'name': 'Все'},
-    {'href': 'products_home', 'name': 'Дом'},
-    {'href': 'products_modern', 'name': 'Модерн'},
-    {'href': 'products_office', 'name': 'Офис'},
-    {'href': 'products_classic', 'name': 'Классика'},
-]
+from mainapp.models import Product, ProductCategory
 
 
 def index(request):
 
-    product_list = Product.objects.all()
-    print(product_list.query)
+    products_list = Product.objects.all()[:4]
+    print(products_list.query)
 
     context = {
-        'titel': 'мой магазин',
-        'products': product_list
-
-
+        'title': 'Главная | Interior - online furniture shopping',
+        'products': products_list
     }
+    return render(request, 'mainapp/index.html', context)
 
-    return render(request, 'mainapp/index.html')
 
-def products(request):
+def products(request, pk=None):
+
+    links_menu = ProductCategory.objects.all()
+
     context = {
         'links_menu': links_menu,
-        'title': 'Все товары'
+        'title': 'Продукты | Interior - online furniture shopping'
     }
-
     return render(request, 'mainapp/products.html', context)
 
+
 def products_home(request):
+    links_menu = ProductCategory.objects.all()
     context = {
         'links_menu': links_menu,
         'title': 'Дом'
@@ -43,6 +37,7 @@ def products_home(request):
     return render(request, 'mainapp/products.html', context)
 
 def products_modern(request):
+    links_menu = ProductCategory.objects.all()
     context = {
         'links_menu': links_menu,
         'title': 'Модерн'
@@ -51,6 +46,7 @@ def products_modern(request):
     return render(request, 'mainapp/products.html', context)
 
 def products_office(request):
+    links_menu = ProductCategory.objects.all()
     context = {
         'links_menu': links_menu,
         'title': 'Офис'
@@ -59,6 +55,7 @@ def products_office(request):
     return render(request, 'mainapp/products.html', context)
 
 def products_classic(request):
+    links_menu = ProductCategory.objects.all()
     context = {
         'links_menu': links_menu,
         'title': 'Классика'

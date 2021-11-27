@@ -21,11 +21,9 @@ from mainapp import views as mainapp
 
 urlpatterns = [
     path('', mainapp.index, name='index'),
+    path('contacts/', mainapp.contact, name='contacts'),
+
     path('products/', include('mainapp.urls', namespace='products')),
-
-
-
-    path('contact/', mainapp.contact, name='contacts'),
 
     path('admin/', admin.site.urls),
 ]
