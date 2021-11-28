@@ -1,0 +1,20 @@
+[
+  {
+    "city": "Минск",
+    "phone": "+375297777788",
+    "email": "minsk@gb.com",
+    "address": "г.Минск"
+  },
+  {
+    "city": "Брест",
+    "phone": "+375297777766",
+    "email": "brest@gb.com",
+    "address": "г.Брест"
+  },
+  {
+    "city": "Гродно",
+    "phone": "+375297777755",
+    "email": "grodno@gb.com",
+    "address": "г.Гродно"
+  }
+]

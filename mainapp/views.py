@@ -10,7 +10,7 @@ def index(request):
     print(products_list.query)
 
     context = {
-        'title': 'Главная | Interior - online furniture shopping',
+        'title': 'Главная   Interior - online furniture shopping',
         'products': products_list
     }
     return render(request, 'mainapp/index.html', context)
