@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.conf import settings
 
@@ -5,7 +7,6 @@ from mainapp.models import Product, ProductCategory
 
 
 def index(request):
-
     products_list = Product.objects.all()[:4]
     print(products_list.query)
 
@@ -17,7 +18,6 @@ def index(request):
 
 
 def products(request, pk=None):
-
     links_menu = ProductCategory.objects.all()
 
     context = {
@@ -36,6 +36,7 @@ def products_home(request):
 
     return render(request, 'mainapp/products.html', context)
 
+
 def products_modern(request):
     links_menu = ProductCategory.objects.all()
     context = {
@@ -44,6 +45,7 @@ def products_modern(request):
     }
 
     return render(request, 'mainapp/products.html', context)
+
 
 def products_office(request):
     links_menu = ProductCategory.objects.all()
@@ -54,6 +56,7 @@ def products_office(request):
 
     return render(request, 'mainapp/products.html', context)
 
+
 def products_classic(request):
     links_menu = ProductCategory.objects.all()
     context = {
@@ -63,5 +66,11 @@ def products_classic(request):
 
     return render(request, 'mainapp/products.html', context)
 
+
 def contact(request):
-    return render(request, 'mainapp/contact.html')
+    with open(f"{settings.BASE_DIR}/contacts.json", encoding='utf-8') as contacts_file:
+        context = {
+            'contacts': json.load(contacts_file),
+            'title': 'Контакты | Interior - online furniture shopping'
+        }
+    return render(request, 'mainapp/contact.html', context)
