@@ -4,9 +4,14 @@
 <head>
 	<meta charset="utf-8">
 	<title>{{ title|default:'Магазин'}}</title>
+{#    <link rel="icon" href="data:;base64,iVBORw0KGgo=">#}
+    
     {% block css %}
-    <link rel="stylesheet" type="text/css" href= "{% static 'style.css' %}">
-	<link rel="stylesheet" href="{% static 'fonts/font-awesome/css/font-awesome.css%' %}">
+   	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+	<link rel="stylesheet" href="{% static 'fonts/font-awesome/css/font-awesome.css' %}">
+
+
+
     {% endblock %}
 
 </head>
