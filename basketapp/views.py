@@ -42,7 +42,7 @@ def basket_remove(request, pk):
 
 
 def basket_edit(request, pk, quantity):
-    if request.is_ajax():
+    # if request.is_ajax(): #
         quantity = int(quantity)
 
         basket_item = Basket.objects.get(pk=pk)
