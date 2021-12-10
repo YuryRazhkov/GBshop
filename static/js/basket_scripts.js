@@ -24,7 +24,7 @@ window.onload = function () {
         event.preventDefault();
     });
     */
-    /**
+
     // добавляем ajax-обработчик для обновления количества товара
     $('.basket_list').on('click', 'input[type="number"]', function () {
         var target_href = event.target;
@@ -43,4 +43,4 @@ window.onload = function () {
         event.preventDefault();
     });
     
-**/}
+}
