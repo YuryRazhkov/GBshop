@@ -20,6 +20,30 @@
 </head>
 <body>
     <div class="admin_container">
+    <div class="h2 text-center head">
+         АДМИНКА
+    </div>
+    <div class="admin_menu">
+
+        <ul class="menu">
+
+            <li>
+                <a href="{% url 'adminapp:users' %}">пользователи</a>
+            </li>
+            <li>
+                <a href="{% url 'adminapp:categories' %}">категории</a>
+            </li>
+            <li>
+                <a href="{% url 'index' %}">на сайт</a>
+            </li>
+
+
+
+
+
+        </ul>
+    </div>
+
         {% block content %}
 
         {% endblock %}

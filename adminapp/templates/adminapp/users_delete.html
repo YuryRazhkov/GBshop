@@ -1,0 +1,14 @@
+{% extends 'adminapp/base.html' %}
+
+{% block content %}
+<div style="text-align: center">
+    <p style="font-size: xx-large; color: #d41306">Сonfirm the deletion {{ object }} - {{ object.get_full_name }}</p>
+        <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="CONFIRM"/>
+        </form>
+        <br>
+        <a href="{% url 'adminapp:users' %}" class="btn btn-primary">ABORT</a>
+</div>
+{% endblock %}
+
