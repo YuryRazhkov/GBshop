@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from adminapp.forms import ShopUserAdminEditForm
+from adminapp.forms import ShopUserAdminEditForm, ProductCategoryForm, ProductForm
 from authapp.forms import ShopUserRegisterForm
 from authapp.models import ShopUser
 from mainapp.models import Product, ProductCategory
@@ -62,7 +62,7 @@ def user_delete(request, pk):
     context = {
         'object': current_user,
     }
-    return render(request, 'adminapp/users_delete.html', context)
+    return render(request, 'adminapp/confirm_delete.html', context)
 
 
 
@@ -79,35 +79,50 @@ def categories(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def category_create(request):
+
+
     if request.method == 'POST':
-        user_form = ShopUserRegisterForm(request.POST, request.FILES)
-        if user_form.is_valid():
-            user_form.save()
-            return HttpResponseRedirect(reverse('adminapp:users'))
+        form = ProductCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('adminapp:categories'))
     else:
-        user_form = ShopUserRegisterForm()
+        form = ProductCategoryForm()
 
     context = {
-        'form': user_form
+        'form': form
     }
-    return render(request, 'adminapp/users_form.html', context)
+    return render(request, 'adminapp/categories_forms.html', context)
 
 
 @user_passes_test(lambda u: u.is_superuser)
 def category_update(request, pk):
+    category_item = get_object_or_404(ProductCategory, pk=pk)
+
+    if request.method == 'POST':
+        form = ProductCategoryForm(request.POST, instance=category_item)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('adminapp:categories'))
+    else:
+        form = ProductCategoryForm(instance=category_item)
 
     context = {
-
+        'form': form
     }
-    return render(request, 'adminapp/users_list.html', context)
+    return render(request, 'adminapp/categories_forms.html', context)
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser)  # Попробывал реализовать удаление без формы подтверждения. Так правильно?
 def category_delete(request, pk):
+    category_item = get_object_or_404(ProductCategory, pk=pk)
+    category_item.is_active = False
+    category_item.save()
     context = {
-
+        'object_list': ProductCategory.objects.all()
     }
-    return render(request, 'adminapp/users_list.html', context)
+    return render(request, 'adminapp/categories_list.html', context)
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def products(request, pk):
@@ -121,33 +136,57 @@ def products(request, pk):
 
 @user_passes_test(lambda u: u.is_superuser)
 def product_create(request):
-    context = {
 
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('adminapp:categories'))
+    else:
+        form = ProductForm()
+
+    context = {
+        'form': form
     }
-    return render(request, 'adminapp/users_list.html', context)
+    return render(request, 'adminapp/product_form.html', context)
 
 
 @user_passes_test(lambda u: u.is_superuser)
 def product_update(request, pk):
-    context = {
+    curent_item = get_object_or_404(Product, pk=pk)
 
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=curent_item)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('adminapp:categories'))
+    else:
+        form = ProductForm(instance=curent_item)
+
+    context = {
+        'form': form
     }
-    return render(request, 'adminapp/users_list.html', context)
+    return render(request, 'adminapp/product_form.html', context)
 
 
 @user_passes_test(lambda u: u.is_superuser)
 def product_delete(request, pk):
-    context = {
+    current_item = get_object_or_404(Product, pk=pk)
 
+    if request.method == "POST":
+        current_item.is_active = False
+        current_item.save()
+        return HttpResponseRedirect(reverse('adminapp:categories'))
+
+    context = {
+        'object': current_item,
     }
-    return render(request, 'adminapp/users_list.html', context)
+    return render(request, 'adminapp/confirm_delete.html', context)
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def product_read(request, pk):
-    context = {
-
-    }
-    return render(request, 'adminapp/users_list.html', context)
+    pass
 
 
 
