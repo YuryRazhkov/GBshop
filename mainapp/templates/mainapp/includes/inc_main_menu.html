@@ -1,4 +1,4 @@
-<a href="ind{% url 'index' %}ex.html" class="logo"></a>
+<a href="{% url 'index' %}" class="logo"></a>
 <ul class="menu">
 
 
@@ -20,4 +20,10 @@
 
 </ul>
 <a href="#" class="search"></a>
+
+<a href="{% url 'basketapp:basket' %}" class="basket">
+    <span>{% if basket %}{{ basket|length }}{% endif %}</span>
+
+
+</a>
 
