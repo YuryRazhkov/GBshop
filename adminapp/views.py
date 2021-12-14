@@ -127,7 +127,7 @@ def category_delete(request, pk):
 @user_passes_test(lambda u: u.is_superuser)
 def products(request, pk):
     context = {
-        'object_list': Product.objects.filter(category__pk=pk),
+        'object_list': Product.objects.filter(category__pk=pk).order_by('-is_active'),
         'category': ProductCategory.objects.filter(id=pk),
 
     }
@@ -189,7 +189,11 @@ def product_delete(request, pk):
 
 @user_passes_test(lambda u: u.is_superuser)
 def product_read(request, pk):
-    pass
+    curent_item = get_object_or_404(Product, pk=pk)
+
+    context = {'object': curent_item}
+
+    return render(request, 'adminapp/product_read.html', context)
 
 
 

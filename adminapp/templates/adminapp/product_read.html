@@ -1,0 +1,19 @@
+{% extends 'adminapp/base.html' %}
+
+{% block content %}
+
+    <br>
+<div class="product_read">
+    <a href="javascript:history.go(-1)" class="btn btn-default">Назад</a> <br> <br>
+    <div style="font-size: large">{{ object }}</div><br><br>
+
+<div>{{ object.name }}</div>
+<div>{{ object.description }}</div>
+<div>Цена {{ object.price }} руб. </div>
+<div>В наличии: {{ object.quantity }} шт.</div>
+<div><img src="/media/{{ object.image }}" /></div>
+    <br>
+
+</div>
+
+{% endblock %}
