@@ -159,7 +159,7 @@ def product_update(request, pk):
         form = ProductForm(request.POST, request.FILES, instance=curent_item)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('adminapp:categories'))
+            return HttpResponseRedirect(reverse('adminapp:products', args=[curent_item.category.pk]))
     else:
         form = ProductForm(instance=curent_item)
 
@@ -171,17 +171,20 @@ def product_update(request, pk):
 
 @user_passes_test(lambda u: u.is_superuser)
 def product_delete(request, pk):
-    current_item = get_object_or_404(Product, pk=pk)
+    curent_item = get_object_or_404(Product, pk=pk)
 
     if request.method == "POST":
-        current_item.is_active = False
-        current_item.save()
-        return HttpResponseRedirect(reverse('adminapp:categories'))
+        curent_item.is_active = False
+        curent_item.save()
 
-    context = {
-        'object': current_item,
-    }
+        return HttpResponseRedirect(reverse('adminapp:products', args=[curent_item.category.pk]))
+
+    context = {'object': curent_item}
+
     return render(request, 'adminapp/confirm_delete.html', context)
+
+
+
 
 
 @user_passes_test(lambda u: u.is_superuser)
