@@ -3,11 +3,13 @@
 {% block content %}
     <h1 style="text-align: center">
         {{ category.get }}
+{#        {{category}}#}
     </h1>
 
 
 
-     <a class="btn btn-primary" style="color: white; margin: 20px; float: right" href="{% url 'adminapp:product_create'%}">Добавить продукт</a>
+     <a class="btn btn-primary" style="color: white; margin: 20px; float: right"
+        href="{% url 'adminapp:product_create' category.pk%}">Добавить продукт</a>
  <br>
     <div class="products_list" >
 

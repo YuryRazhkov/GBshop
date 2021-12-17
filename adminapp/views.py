@@ -171,39 +171,54 @@ class ProductCategoryDeleteView(DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+# @user_passes_test(lambda u: u.is_superuser)
+# def products(request, pk):
+#     context = {
+#         'object_list': Product.objects.filter(category__pk=pk).order_by('-is_active'),
+#         'category': ProductCategory.objects.filter(id=pk),
+#
+#     }
+#     return render(request, 'adminapp/product_list.html', context)
+
 @user_passes_test(lambda u: u.is_superuser)
 def products(request, pk):
+    title = 'админка/продукт'
+
     context = {
         'object_list': Product.objects.filter(category__pk=pk).order_by('-is_active'),
-        'category': ProductCategory.objects.filter(id=pk),
-
+        'category': get_object_or_404(ProductCategory, pk=pk),
     }
+
     return render(request, 'adminapp/product_list.html', context)
 
 
+
 # @user_passes_test(lambda u: u.is_superuser)
-# def product_create(request):
+# def product_create(request, pk):
+#     category_item = get_object_or_404(ProductCategory, pk=pk)
 #
 #     if request.method == 'POST':
 #         form = ProductForm(request.POST, request.FILES)
 #         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect(reverse('adminapp:categories'))
+#             product_item = form.save()
+#             return HttpResponseRedirect(reverse('adminapp:products', args=[product_item.category.pk]))
 #     else:
 #         form = ProductForm()
 #
-#
 #     context = {
-#         'form': form
+#         'form': form,
+#         'category': category_item
 #     }
 #     return render(request, 'adminapp/product_form.html', context)
 
 class ProductCreateView(CreateView):
     model = Product
     template_name = 'adminapp/product_form.html'
-    # fields = '__all__'
     form_class = ProductForm
     success_url = reverse_lazy('adminapp:categories')
+
+    def get_success_url(self):
+        return reverse('adminapp:products', args=[self.kwargs.get('pk')])
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -212,6 +227,25 @@ class ProductCreateView(CreateView):
         context_data['category'] = category_item
         return context_data
 
+
+# def product_create(request, pk):
+#     title = 'продукт/создание'
+#     category = get_object_or_404(ProductCategory, pk=pk)
+#
+#     if request.method == 'POST':
+#         product_form = ProductForm(request.POST, request.FILES)
+#         if product_form.is_valid():
+#             product_form.save()
+#             return HttpResponseRedirect(reverse('admin:products', args=[pk]))
+#     else:
+#         product_form = ProductForm(initial={'category': category})
+#
+#     content = {'title': title,
+#                'update_form': product_form,
+#                'category': category
+#                }
+#
+#     return render(request, 'adminapp/confirm_delete.html', content)
 
 @user_passes_test(lambda u: u.is_superuser)
 def product_update(request, pk):
