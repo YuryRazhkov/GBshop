@@ -255,11 +255,12 @@ def product_update(request, pk):
         form = ProductForm(request.POST, request.FILES, instance=curent_item)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('adminapp:products', args=[curent_item.category.pk]))
+            return HttpResponseRedirect(reverse('adminapp:products', args=[curent_item.category_id]))
     else:
         form = ProductForm(instance=curent_item)
 
     context = {
+        'curent_item': curent_item,
         'form': form
     }
     return render(request, 'adminapp/product_form.html', context)

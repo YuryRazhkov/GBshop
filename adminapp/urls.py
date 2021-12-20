@@ -20,7 +20,7 @@ urlpatterns = [
     path('products/update/<int:pk>/', adminapp.product_update, name='product_update'),
     path('products/delete/<int:pk>/', adminapp.product_delete, name='product_delete'),
     path('products/read/<int:pk>/', adminapp.ProductDetailView.as_view(), name='product_read'),
-    
+
     # path('products/create/<int:pk>/', adminapp.product_create, name='product_create'),
 ]
 
