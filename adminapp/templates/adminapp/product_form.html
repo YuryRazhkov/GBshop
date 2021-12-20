@@ -1,7 +1,7 @@
 {% extends 'adminapp/base.html' %}
 
 {% block content %}
-<div>tcnm {{ curent_item.category_id}}</div>
+
     <form class="form-horizontal" style="margin: 25px" method="post" enctype="multipart/form-data" >
 
 
@@ -11,6 +11,6 @@
 
     </form>
     <br>
-    <a class="btn btn-primary" style="margin-left: 25px" href="{% url 'adminapp:products' curent_item.category_id %}">К списку продуктов</a>
+    <a class="btn btn-primary" style="margin-left: 25px" href="{% url 'adminapp:products' object.category_id %}">К списку продуктов</a>
 
 {% endblock %}

@@ -260,8 +260,8 @@ def product_update(request, pk):
         form = ProductForm(instance=curent_item)
 
     context = {
-        'curent_item': curent_item,
-        'form': form
+        'object': curent_item,
+        'form': form,
     }
     return render(request, 'adminapp/product_form.html', context)
 
