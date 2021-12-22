@@ -247,23 +247,34 @@ class ProductCreateView(CreateView):
 #
 #     return render(request, 'adminapp/confirm_delete.html', content)
 
-@user_passes_test(lambda u: u.is_superuser)
-def product_update(request, pk):
-    curent_item = get_object_or_404(Product, pk=pk)
+# @user_passes_test(lambda u: u.is_superuser)
+# def product_update(request, pk):
+#     curent_item = get_object_or_404(Product, pk=pk)
+#
+#     if request.method == 'POST':
+#         form = ProductForm(request.POST, request.FILES, instance=curent_item)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('adminapp:products', args=[curent_item.category_id]))
+#     else:
+#         form = ProductForm(instance=curent_item)
+#
+#     context = {
+#         'object': curent_item,
+#         'form': form,
+#     }
+#     return render(request, 'adminapp/product_form.html', context)
 
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES, instance=curent_item)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('adminapp:products', args=[curent_item.category_id]))
-    else:
-        form = ProductForm(instance=curent_item)
+class ProductUpdateView(UpdateView):
+    model = Product
+    template_name = 'adminapp/product_form.html'
+    # fields = '__all__'
+    form_class = ProductForm
 
-    context = {
-        'object': curent_item,
-        'form': form,
-    }
-    return render(request, 'adminapp/product_form.html', context)
+    def get_success_url(self):
+        product_id = self.kwargs.get('pk')
+        product = get_object_or_404(Product, pk=product_id)
+        return reverse_lazy('adminapp:products', args=[product.category.pk])
 
 
 @user_passes_test(lambda u: u.is_superuser)
