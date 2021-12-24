@@ -13,10 +13,17 @@ class ProductCategory(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
+    def delete(self, *args, **kwargs):
+        self.is_active = False
+        self.save()
+
+
+
+
 class Product(models.Model):
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     name = models.CharField(verbose_name='имя продукта', max_length=128)
-    image = models.ImageField(upload_to='media/products/', blank=True)
+    image = models.ImageField(upload_to='products/', blank=True)
     short_desc = models.CharField(verbose_name='краткое описание продукта', max_length=255, blank=True)
     description = models.TextField(verbose_name='Описание', blank=True)
     price = models.DecimalField(verbose_name='Цена', max_digits=8, decimal_places=2, default=0)

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div style="text-align: center">
-    <p style="font-size: xx-large; color: #d41306">Сonfirm the deletion {{ object }} {{ object.get_full_name }}</p>
+    <p style="font-size: xx-large; color: #d41306">Сonfirm the deletion {{ object }} </p>
         <form method="post">
         {% csrf_token %}
         <input type="submit" value="CONFIRM"/>

@@ -1,4 +1,5 @@
 {% extends 'adminapp/base.html' %}
+{% load my_tags %}
 
 {% block content %}
 <div class="users_list">
@@ -33,7 +34,7 @@
     <div class="user_email">email: {{ item.email }}</div>
     <div class="user_age">age: {{ item.age }}</div>
 
-     <div> <img src="/media/{{ item.avatar }}" /></div>
+     <div> <img src="{{ item.avatar | media_for_users}}" /></div>
     </div>
     <br>
 {% endfor %}
