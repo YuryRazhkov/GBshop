@@ -96,7 +96,7 @@ html, body {
 }
 
 .products_list {
-    margin-left: 250px;
+    margin-left: 150px;
 }
 
 .products_list .new_product {
@@ -275,7 +275,7 @@ html, body {
 }
 
 .users_list a {
-    color: #555;
+    color: #777;
     text-decoration: none;
 }
 
@@ -292,7 +292,7 @@ html, body {
 }
 
 .user_record {
-    height: 125px;
+    height: 150px;
     margin: 15px auto;
     position: relative;
 }
@@ -304,7 +304,7 @@ html, body {
 .user_record img {
     display: block;
     float: left;
-    height: 125px;
+    height: 135px;
     border-radius: 25px;
 }
 
