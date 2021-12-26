@@ -11,12 +11,13 @@
                 {% endif %}
         <a href="{% url 'authapp:edit' %}"> {% if user.first_name %}{{user.first_name}} {% else %}Пользователь {% endif %}</a>
         <a href="{% url 'authapp:logout' %}">выйти</a>
-        <a href="{% url 'authapp:register' %}">регистрация</a>
+
         {% else %}
 
 
         <a href="{% url 'authapp:login' %}">войти</a>
         {% endif %}
+    <li><a href="{% url 'authapp:register' %}">регистрация</a>
 
 
 

@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.conf import settings
 from django.core.mail import send_mail
 
+from authapp.models import ShopUser
+
 
 def login(request):
     title = 'вход'
@@ -56,7 +58,8 @@ def register(request):
     if request.method == 'POST':
         register_form = ShopUserRegisterForm(request.POST, request.FILES)
         if register_form.is_valid():
-            register_form.save()
+            user = register_form.save()
+            send_verify_mail(user)
             return HttpResponseRedirect(reverse('authapp:login'))
 
     else:
@@ -68,12 +71,21 @@ def register(request):
 
     return render(request, 'authapp/register.html', context)
 
-def verify(request, email, acctivation_key):
-    pass
+def verify(request, email, activation_key):
+    user = ShopUser.objects.filter(email=email).first()
+    if user:
+        if user.activation_key == activation_key and not user.is_activation_key_expired():
+            print("user_is:", user, activation_key, user.activation_key, user.activation_key_expired)
+            user.is_activate = True
+            user.activation_key = None
+            user.activation_key_expired = None
+            user.save()
+            auth.login(request, user)
+    return render(request, 'authapp/verify.html')
 
 def send_verify_mail(user):
-    verify_link = "reverse('auth:verify', args=[user.email, user.activation_key])"
-   
+    verify_link = reverse('authapp:verify', args=[user.email, user.activation_key])
+
     subject = f'Подтверждение учетной записи {user.username}'
 
     message = f'Для подтверждения учетной записи {user.username} на портале \

@@ -12,11 +12,11 @@
 
     </form>
     <br>
-{#    {% if object.category_id > 0 %}#}
+{#    {% if object.category_id %}#}
 {#    <a class="btn btn-primary" style="margin-left: 25px" href="{% url 'adminapp:products' object.category.pk %}">К списку продуктов</a>#}
 {#    {% else %}#}
-{#     <a class="btn btn-primary" style="margin-left: 25px" href="{% url 'adminapp:products' category.pk %}">К списку продуктов</a>#}
-{#{% endif %}#}
+{#    <a class="btn btn-primary" style="margin-left: 25px" href="{% url 'adminapp:products' category.pk %}">К списку продуктов</a>#}
+{#    {% endif %}#}
 <a href="javascript:history.go(-1)" class="btn btn-primary" style="margin-left: 25px">К списку продуктов</a> <br> <br>
 
 {% endblock %}
