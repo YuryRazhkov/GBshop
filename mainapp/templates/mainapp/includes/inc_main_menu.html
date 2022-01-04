@@ -9,6 +9,7 @@
             {% if user.is_superuser %}
                 <a href="{% url 'adminapp:users' %}">Админка</a>
                 {% endif %}
+        <a href="{% url 'ordersapp:list' %}">Заказы</a>>
         <a href="{% url 'authapp:edit' %}"> {% if user.first_name %}{{user.first_name}} {% else %}Пользователь {% endif %}</a>
         <a href="{% url 'authapp:logout' %}">выйти</a>
 
