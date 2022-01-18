@@ -3,3 +3,5 @@
 /env
 .env
 /GBshop
+db.sqlite3
+.idea
