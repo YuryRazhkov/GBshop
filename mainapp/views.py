@@ -10,11 +10,6 @@ from basketapp.models import Basket
 from mainapp.models import Product, ProductCategory
 
 
-def get_basket(user):
-    if user.is_authenticated:
-        return Basket.objects.filter(user=user)
-    return []
-
 def get_hot_Product():
     products_list = Product.objects.all()
     return random.sample(list(products_list), 1)[0]
@@ -32,8 +27,7 @@ def index(request):
     context = {
         'title': 'Главная | Interior - online furniture shopping',
         'products': products_list,
-        'basket': get_basket(request.user),
-    }
+           }
     return render(request, 'mainapp/index.html', context)
 
 
@@ -60,7 +54,7 @@ def products(request, pk=None, page=1):
             'links_menu': links_menu,
             'category': category_item,
             'products': products_paginator,
-            'basket': get_basket(request.user)
+
         }
 
         return render(request, 'mainapp/products_list.html', context)
@@ -73,9 +67,6 @@ def products(request, pk=None, page=1):
         'title': 'Продукты | Interior - online furniture shopping',
         'hot_product': hot_product,
         'same_products': get_same_product(hot_product),
-        'basket': get_basket(request.user),
-
-
     }
     return render(request, 'mainapp/products.html', context)
 
@@ -86,7 +77,6 @@ def contact(request):
         context = {
             'contacts': json.load(contacts_file),
             'title': 'Контакты | Interior - online furniture shopping',
-            'basket': get_basket(request.user),
         }
     return render(request, 'mainapp/contact.html', context)
 
@@ -96,6 +86,5 @@ def product(request, pk):
     context = {
             'links_menu': links_menu,
             'product': get_object_or_404(Product, pk=pk),
-            'basket': get_basket(request.user),
-        }
+               }
     return render(request, 'mainapp/product.html', context)

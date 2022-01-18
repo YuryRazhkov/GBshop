@@ -217,16 +217,28 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('adminapp:categories')
 
-    def get_success_url(self):
-        return reverse('adminapp:products', args=[self.kwargs.get('pk')])
+
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
+        print('context_data', context_data)
         category_id = self.kwargs.get('pk')
+        print('category_id', category_id)
         category_item = get_object_or_404(ProductCategory, pk=category_id)
+        # category_item = get_object_or_404(Product, pk=category_id)
+        print('category_item', category_item)
+
         context_data['category'] = category_item
+        print('category_item', category_item)
+        print('context_data', context_data)
         return context_data
 
+    def get_success_url(self):
+        return reverse('adminapp:products', args=[self.kwargs.get('pk')])
+
+       # product_id = self.kwargs.get('pk')
+       #  product = get_object_or_404(Product, pk=product_id)
+       #  return reverse_lazy('adminapp:products', args=[product.category.pk])
 
 # def product_create(request, pk):
 #     title = 'продукт/создание'
@@ -271,9 +283,13 @@ class ProductUpdateView(UpdateView):
     # fields = '__all__'
     form_class = ProductForm
 
+
+
     def get_success_url(self):
         product_id = self.kwargs.get('pk')
+        print('product_id', product_id)
         product = get_object_or_404(Product, pk=product_id)
+        print('product', product)
         return reverse_lazy('adminapp:products', args=[product.category.pk])
 
 

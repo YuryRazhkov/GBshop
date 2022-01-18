@@ -22,6 +22,9 @@ from mainapp import views as mainapp
 urlpatterns = [
     path('', mainapp.index, name='index'),
     path('contacts/', mainapp.contact, name='contacts'),
+    path('', include('social_django.urls', namespace='social')),
+
+
 
     path('products/', include('mainapp.urls', namespace='products')),
     path('auth/', include('authapp.urls', namespace='authapp')),
@@ -29,6 +32,7 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('admin/', include('adminapp.urls', namespace='adminapp')),
     path('basket/', include('basketapp.urls', namespace='basketapp')),
+    path('orders/', include('ordersapp.urls', namespace='ordersapp')),
 ]
 
 if settings.DEBUG:

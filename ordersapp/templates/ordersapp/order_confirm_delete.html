@@ -1,0 +1,17 @@
+{% extends 'ordersapp/base.html' %}
+
+{% block content %}
+<div style="text-align: center">
+    <p style="font-size: xx-large; color: #d41306">Сonfirm the deletion </p>
+    {% include 'ordersapp/includes/inc_order_summary.html' %}
+        <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="CONFIRM"/>
+        </form>
+        <br>
+ <a href="javascript:history.go(-1)" class="btn btn-default">Назад</a> <br> <br>
+
+</div>
+
+
+{% endblock %}

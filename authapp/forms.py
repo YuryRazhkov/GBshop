@@ -1,7 +1,10 @@
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
-from django.forms import forms, HiddenInput
+import random, hashlib
+from datetime import timedelta, datetime
 
-from authapp.models import ShopUser
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from django.forms import forms, HiddenInput, ModelForm
+
+from authapp.models import ShopUser, ShopUserProfile
 
 
 class ShopUserLoginForm(AuthenticationForm):
@@ -33,6 +36,15 @@ class ShopUserRegisterForm(UserCreationForm):
 
         return data_age
 
+    def save(self, *args, **kwargs):
+        user = super().save(*args, **kwargs)
+        user.is_active = False
+        salt = hashlib.sha1(str(random.random()).encode('utf8')).hexdigest()[:6]
+        user.activation_key = hashlib.sha1((user.email + salt).encode('utf8')).hexdigest()
+        user.activation_key_expired = datetime.now()
+        user.save()
+        return user
+
 
 class ShopUserEditForm(UserChangeForm):
     class Meta:
@@ -53,3 +65,20 @@ class ShopUserEditForm(UserChangeForm):
             raise forms.ValidationError("Вы слишком молоды!")
 
         return data
+
+class ShopUserProfileForm(ModelForm):
+
+    class Meta:
+        model = ShopUserProfile
+        fields = '__all__'
+
+    fields = ('tagline', 'aboutMe', 'gender')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+
+
+

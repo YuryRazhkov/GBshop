@@ -1,0 +1,17 @@
+{% extends 'authapp/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <h1>Регистрация прошла успешно</h1>
+    <p1> Пользователь зарегистрирован</p1>
+    {% else %}
+    <h1>Сбой регистрации</h1>
+    <p1> Пользователь не зарегистрирован</p1>
+
+    {% endif %}
+
+    <br><a class="btn btn-primary" href = "{% url 'index' %}" >На главную </a><br>
+   <br><a class="btn btn-primary" href="{% url 'authapp:login' %}">Войти</a><br>
+{% endblock %}
