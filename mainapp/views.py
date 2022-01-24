@@ -1,4 +1,5 @@
 import json
+import os
 import random
 
 from django.conf import settings
@@ -7,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from basketapp.models import Basket
+from mainapp.management.commands.fill import JSON_PATH
 from mainapp.models import Product, ProductCategory
 
 
@@ -88,3 +90,22 @@ def product(request, pk):
             'product': get_object_or_404(Product, pk=pk),
                }
     return render(request, 'mainapp/product.html', context)
+
+
+def main(request):
+   title = 'главная'
+
+   products = Product.objects.\
+                      filter(is_active=True, category__is_active=True).\
+                      select_related('category')[:3]
+
+   content = {
+       'title': title,
+       'products': products,
+   }
+   return render(request, 'mainapp/index.html', content)
+
+
+def load_from_json(file_name):
+   with open(os.path.join(JSON_PATH, file_name + '.json'), 'r', errors='ignore') as infile:
+       return json.load(infile)
