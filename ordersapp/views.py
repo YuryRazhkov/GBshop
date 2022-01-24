@@ -1,8 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView, DetailView
 from django.urls import reverse, reverse_lazy
 from django.forms import inlineformset_factory
@@ -18,6 +20,10 @@ class OrderList(ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True)
+
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super(ListView, self).dispatch(*args, **kwargs)
 
 
 class OrderCreateView(CreateView):
@@ -77,7 +83,10 @@ class OrderUpdateView(UpdateView):
         if self.request.method == 'POST':
             formset = OrderFormSet(self.request.POST, instance=self.object)
         else:
-            formset = OrderFormSet(instance=self.object)
+            # formset = OrderFormSet(instance=self.object)
+            queryset = self.object.orderitems.select_related()
+            formset = OrderFormSet(instance=self.object, queryset=queryset)
+
             for form in formset.forms:
                 if form.instance.pk:
                     form.initial['price'] = form.instance.product.price
