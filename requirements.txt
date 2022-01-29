@@ -1,0 +1,1 @@
+psycopg2-binarydjangosocial_auth_app_djangorequestspillowdjango-debug-toolbardjango-debug-toolbar-template-profilerdjango_extensions
