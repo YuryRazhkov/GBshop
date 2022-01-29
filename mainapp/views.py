@@ -10,6 +10,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from basketapp.models import Basket
 from mainapp.management.commands.fill import JSON_PATH
 from mainapp.models import Product, ProductCategory
+from django.views.decorators.cache import cache_page
 
 
 def get_hot_Product():
@@ -32,7 +33,7 @@ def index(request):
            }
     return render(request, 'mainapp/index.html', context)
 
-
+# @cache_page(3600)
 def products(request, pk=None, page=1):
     links_menu = ProductCategory.objects.all()
 
@@ -95,9 +96,7 @@ def product(request, pk):
 def main(request):
    title = 'главная'
 
-   products = Product.objects.\
-                      filter(is_active=True, category__is_active=True).\
-                      select_related('category')[:3]
+   products = Product.objects.filter(is_active=True, category__is_active=True).select_related('category')[:3]
 
    content = {
        'title': title,
