@@ -1,1 +1,1 @@
-{"resources":{"Scripts/Script-1.sql":{"sql-editor-data-source-id":"postgres-jdbc-17e9c4100e2-24917eb0ad7fe33e","default-datasource":"sqlite_jdbc-17e9bfb50b4-1e39e542ff926bb8"},"Scripts/Script.sql":{"sql-editor-data-source-id":"sqlite_jdbc-17e9bfb50b4-1e39e542ff926bb8","default-datasource":"sqlite_jdbc-17e9bfb50b4-1e39e542ff926bb8"}}}
+{"resources":{"Scripts/Script.sql":{"sql-editor-data-source-id":"sqlite_jdbc-17e9bfb50b4-1e39e542ff926bb8","default-datasource":"sqlite_jdbc-17e9bfb50b4-1e39e542ff926bb8"}}}

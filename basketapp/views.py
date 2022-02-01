@@ -8,6 +8,8 @@ from django.urls import reverse
 from basketapp.models import Basket
 from mainapp.models import Product
 
+from django.db.models import F
+
 @login_required
 def basket(request):
     context = {
@@ -29,7 +31,7 @@ def basket_add(request, pk):
             product=product_item
         )
 
-    basket_item.quantity += 1
+    basket_item.quantity = F('quantity') + 1
     basket_item.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
