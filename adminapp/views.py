@@ -13,6 +13,12 @@ from authapp.forms import ShopUserRegisterForm
 from authapp.models import ShopUser
 from mainapp.models import Product, ProductCategory
 
+
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
+from django.db import connection
+
+
 # @user_passes_test(lambda u: u.is_superuser)
 # def users(request):
 #     context = {
@@ -283,8 +289,6 @@ class ProductUpdateView(UpdateView):
     # fields = '__all__'
     form_class = ProductForm
 
-
-
     def get_success_url(self):
         product_id = self.kwargs.get('pk')
         print('product_id', product_id)
@@ -307,7 +311,20 @@ def product_delete(request, pk):
 
     return render(request, 'adminapp/confirm_delete.html', context)
 
+def db_profile_by_type(prefix, type, queries):
+   update_queries = list(filter(lambda x: type in x['sql'], queries))
+   print(f'db_profile {type} for {prefix}:')
+   [print(query['sql']) for query in update_queries]
 
+@receiver(pre_save, sender=ProductCategory)
+def product_is_active_update_productcategory_save(sender, instance, **kwargs):
+   if instance.pk:
+       if instance.is_active:
+           instance.product_set.update(is_active=True)
+       else:
+           instance.product_set.update(is_active=False)
+
+       db_profile_by_type(sender, 'UPDATE', connection.queries)
 
 #
 # @user_passes_test(lambda u: u.is_superuser)

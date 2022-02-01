@@ -1,3 +1,5 @@
+from functools import cached_property
+
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import pre_save
@@ -24,23 +26,39 @@ class Basket(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-    @property
+    # @property
     def product_cost(self):
         return self.product.price * self.quantity
 
+    product_cost = property(product_cost)
 
-    @property
+
+
+    @cached_property
+    def get_items_cached(self):
+        return self.user.basket.select_related()
+
     def total_quantity(self):
-        items = Basket.objects.filter(user=self.user)
-        _total_quantity = sum(list(map(lambda x: x.quantity, items)))
-        return _total_quantity
+        _items = self.get_items_cached
+        return sum(list(map(lambda x: x.quantity, _items)))
 
-
-    @property
     def total_cost(self):
-        items = Basket.objects.filter(user=self.user)
-        _total_cost = sum(list(map(lambda x: x.product_cost, items)))
-        return _total_cost
+        _items = self.get_items_cached
+        return sum(list(map(lambda x: x.product_cost, _items)))
+
+    #
+    # @property
+    # def total_quantity(self):
+    #     items = Basket.objects.filter(user=self.user)
+    #     _total_quantity = sum(list(map(lambda x: x.quantity, items)))
+    #     return _total_quantity
+    #
+    #
+    # @property
+    # def total_cost(self):
+    #     items = Basket.objects.filter(user=self.user)
+    #     _total_cost = sum(list(map(lambda x: x.product_cost, items)))
+    #     return _total_cost
 
     # def delete(self, *args, **kwargs):
     #     self.product.quantity += self.quantity

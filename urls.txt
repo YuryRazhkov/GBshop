@@ -1,0 +1,7 @@
+127.0.0.1:8000/
+127.0.0.1:8000/products/
+127.0.0.1:8000/contact/
+127.0.0.1:8000/products/category/1/
+127.0.0.1:8000/products/category/2/
+127.0.0.1:8000/products/category/3/
+127.0.0.1:8000/products/category/4/

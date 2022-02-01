@@ -38,9 +38,19 @@ class Order(models.Model):
         _total_cost = sum(list(map(lambda x: x.quantity * x.product.price, _items)))
         return _total_cost
 
+    def get_summary(self):
+        items = self.orderitems.select_related()
+        return {
+            'total_cost': sum(list(map(lambda x: x.quantity * x.product.price, items))),
+            'total_qantity': sum(list(map(lambda x: x.quantity, items)))
+        }
+
     def delete(self, using=None, keep_parents=False):
         self.is_active = False
         self.save()
+
+
+
 
 
 class OrderItem(models.Model):
